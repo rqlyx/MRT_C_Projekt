@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?fileVersion 3.1.0?>
+<ManagedProjectBuildInfo>
+  <project id="MRT1 V3.cdt.managedbuild.target.gnu.exe.655186727" name="Executable (Gnu)" projectType="cdt.managedbuild.target.gnu.exe">
+    <configuration id="cdt.managedbuild.config.gnu.exe.debug.1492780799" name="Debug" description="" parent="cdt.managedbuild.config.gnu.exe.debug" artifactName="MRT1V3" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" cleanCommand="rm -rf">
+      <toolChain superClass="cdt.managedbuild.toolchain.gnu.exe.debug" id="cdt.managedbuild.toolchain.gnu.exe.debug.1323467509" name="GCC Tool Chain">
+        <tool superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.946097551" name="GCC C++ Compiler"/>
+        <tool superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.560315934" name="GCC C Compiler">
+          <option superClass="gnu.c.compiler.option.include.paths" id="gnu.c.compiler.option.include.paths.1642790399" valueType="includePath">
+            <listOptionValue value="/usr/include/SDL" builtIn="false"/>
+          </option>
+        </tool>
+        <tool superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug" id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.612671917" name="GCC C Linker">
+          <option superClass="gnu.c.link.option.libs" id="gnu.c.link.option.libs.1460712239" valueType="libs">
+            <listOptionValue value="SDL" builtIn="false"/>
+          </option>
+          <option superClass="gnu.c.link.option.paths" id="gnu.c.link.option.paths.1215472835" valueType="stringList">
+            <listOptionValue value="/usr/lib" builtIn="false"/>
+          </option>
+        </tool>
+        <tool superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1346191184" name="GCC C++ Linker"/>
+        <tool superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug" id="cdt.managedbuild.tool.gnu.assembler.exe.debug.918352957" name="GCC Assembler"/>
+        <macros/>
+      </toolChain>
+    </configuration>
+  </project>
+</ManagedProjectBuildInfo>

@@ -1,0 +1,16 @@
+#Wed Oct 10 09:37:53 MESZ 2007
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.exe.debug.1035707667=<?xml version\="1.0"?>\n<environment>\n  <variable name\="LIBRARY_PATH" operation\="remove"/>\n</environment>
+cdt.managedbuild.config.gnu.exe.debug.1492780799/internalBuilder/enabled=false
+cdt.managedbuild.config.gnu.exe.debug.1492780799/internalBuilder/ignoreErr=true
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.exe.debug.1492780799=<?xml version\="1.0"?>\n<environment>\n  <variable name\="LIBRARY_PATH" operation\="remove"/>\n</environment>
+environment/project=<?xml version\="1.0"?>\n<environment/>
+environment/project/cdt.managedbuild.config.gnu.exe.debug.1492780799=<?xml version\="1.0"?>\n<environment/>
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.exe.release.869732624=<?xml version\="1.0"?>\n<environment>\n  <variable name\="CPATH" operation\="remove"/>\n  <variable name\="C_INCLUDE_PATH" operation\="remove"/>\n</environment>
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.exe.debug.1492780799=<?xml version\="1.0"?>\n<environment>\n  <variable name\="CPATH" operation\="remove"/>\n  <variable name\="C_INCLUDE_PATH" operation\="remove"/>\n</environment>
+cdt.managedbuild.config.gnu.exe.debug.1035707667/internalBuilder/ignoreErr=true
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.exe.debug.1035707667=<?xml version\="1.0"?>\n<environment>\n  <variable name\="CPATH" operation\="remove"/>\n  <variable name\="C_INCLUDE_PATH" operation\="remove"/>\n</environment>
+cdt.managedbuild.config.gnu.exe.release.869732624/internalBuilder/ignoreErr=true
+cdt.managedbuild.config.gnu.exe.release.869732624/internalBuilder/enabled=false
+eclipse.preferences.version=1
+cdt.managedbuild.config.gnu.exe.debug.1035707667/internalBuilder/enabled=false
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.exe.release.869732624=<?xml version\="1.0"?>\n<environment>\n  <variable name\="LIBRARY_PATH" operation\="remove"/>\n</environment>
