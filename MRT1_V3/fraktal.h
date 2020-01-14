@@ -2,10 +2,10 @@
  Praktikumsversuch: Einführung in die Sprache C
  Programm-Modul "Fraktal-Analyse"
  */
-#include "graphic.h"
+
 #ifndef FRAKTAL_H
 #define FRAKTAL_H
-
+#include "graphic.h"
 /*--- Datentypvereinbarungen -----------------------------------------------*/
 typedef enum{
 	Mandelbrot,
@@ -24,7 +24,7 @@ struct complex_t{
 };
 /*--- Fraktal analysieren und grafisch darstellen --------------------------*/
 
-int get_itera(struct complex_t c,struct complex_t z);
+int get_itera(struct complex_t c,struct complex_t z, struct param_t* parameter);
 color_name_t get_color_value(int i, int imax);
 void fraktal(struct complex_t c,struct complex_t z, struct param_t* parameter);
 #endif /* FRAKTAL_H */

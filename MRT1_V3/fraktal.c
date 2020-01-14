@@ -5,14 +5,13 @@
 
 #include "fraktal.h"
 
-struct param_t Parameter;
 /*--- Interne Funktion: Analyse der Iterationsanzahl -----------------------*/
-int get_itera(struct complex_t c,struct complex_t z){
+int get_itera(struct complex_t c,struct complex_t z, struct param_t* parameter){
 	int Iterationszahl=0;
-	while((sqrt(z.x)+sqrt(z.y))<sqrt(Parameter.radiusG)){
+	while((z.x*z.x+z.y*z.y)<pow(parameter->radiusG,2)&&Iterationszahl <= parameter->imax){
 		Iterationszahl +=1;
-		z.x += c.x;
-		z.y += c.y;
+		z.x += c.x+z.x*z.x-z.y*z.y;
+		z.y += c.y+2*z.x*z.y;
 	};
 	return Iterationszahl;
 };
@@ -21,38 +20,35 @@ int get_itera(struct complex_t c,struct complex_t z){
 color_name_t get_color_value(int i, int imax){
 	color_name_t Color;
 	if(i>imax) return Color=Black;
-	return Color=i;
+	return Color=i%32;
 };
 
 /*--- Fraktal-Figur analysieren und zeichnen -------------------------------*/
 void fraktal(struct complex_t c,struct complex_t z, struct param_t* parameter){
-	double xstep=(parameter->xmax-parameter->xmin)/(parameter->xpoints);
-	double ystep=(parameter->ymax-parameter->ymin)/(parameter->ypoints);
-	double x=(parameter->xmin);
-	double y=parameter->ymin;
+	double xstep=(double)(parameter->xmax-parameter->xmin)/(double)(parameter->xpoints);
+	double ystep=(double)(parameter->ymax-parameter->ymin)/(double)(parameter->ypoints);
 	color_name_t Color;
 	int Iteration;
 	grafik_lock_for_painting();
-	do{
-		do{
+	for(double y=parameter->ymin; y<parameter->ymax; y+= ystep){
+		for(double x=parameter->xmin; x<parameter->xmax; x+= xstep){
 			if(parameter->fraktal==Mandelbrot){
-				c.x=x;
+				c.x=x;																// change default c to current pixel
 				c.y=y;
-				Iteration = get_itera(c,z);
-				Color = get_color_value(Iteration, parameter->imax);				//Call get_itera with c as the variable number
+				Iteration = get_itera(c,z, parameter);											//Call get_itera with c as the variable number				//
 			}
 			if(parameter->fraktal==Juliamenge){
-				z.x=x;
+				z.x=x;																// change default z to current pixel
 				z.y=y;
-				Iteration = get_itera(c,z);
-				Color = get_color_value(Iteration, parameter->imax);				//Call get_itera with z as the variable number
+				Iteration = get_itera(c,z, parameter);											//Call get_itera with z as the variable number
 			}
-			grafik_paint_point(x, y, Color);
-			x += xstep;
-		}while(x<=parameter->ymax);
 
-		y += ystep;
-	}while(y<=parameter->ymax);
+			Color = get_color_value(Iteration, parameter->imax);
+			//grafik_lock_for_painting();
+			grafik_paint_point(x, y, Color);
+			//grafik_unlock_and_show();
+		};
+	};
 	grafik_unlock_and_show();
 };
 
