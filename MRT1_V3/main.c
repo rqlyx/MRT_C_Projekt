@@ -29,11 +29,15 @@ int main (void)
 
 		Parameter.fraktal = Mandelbrot;
 		Parameter.radiusG =2;
-		Parameter.imax=75;
-		Parameter.xmax=2;
-		Parameter.xmin=-2;
-		Parameter.ymax=2;
-		Parameter.ymin=-2;
+		Parameter.center.x=-2;
+		Parameter.center.y=0;
+		Parameter.view=2;
+		Parameter.zoom=1;
+		Parameter.imax=64;
+		Parameter.xmax=(Parameter.center.x+Parameter.view)/Parameter.zoom;
+		Parameter.xmin=(Parameter.center.x-Parameter.view)/Parameter.zoom;
+		Parameter.ymax=(Parameter.center.y+Parameter.view)/Parameter.zoom;
+		Parameter.ymin=(Parameter.center.x-Parameter.view)/Parameter.zoom;
 		Parameter.xpoints=1000;
 		Parameter.ypoints=1000;
 
@@ -46,14 +50,13 @@ int main (void)
         init_exit();
         
         /*--- Parameter über Dialog abfragen -------------------------------*/
-        param_dialog(&Parameter, &c,&z);
+        //param_dialog(&Parameter, &c,&z);
 
         /* Initialisierung des Grafikausgabefensters */
         grafik_init_window();
 
         /* Erzeugen einer virtuellen Leinwand um darauf zu zeichnen: */
         //grafik_create_paint_area(/*x_min, x_max, y_min, y_max, x_points, y_points*/);
-        grafik_create_paint_area(Parameter.xmin, Parameter.xmax, Parameter.ymin, Parameter.ymax, Parameter.xpoints, Parameter.ypoints);
         /* virtuelle Leinwand vor dem Zeichnen aktivieren */
         //grafik_lock_for_painting();
 
@@ -66,6 +69,10 @@ int main (void)
 
 
         fraktal(c,z,&Parameter);
+        sleep(2);
+        struct complex_t dz={.x=0,.y=0};
+        fraktal_zoom(&c,&z,&Parameter,dz,2);
+        sleep(5);
 
 
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
