@@ -23,19 +23,19 @@ int main (void)
 {
         /*--- Variablendeklaration -----------------------------------------*/
 		struct complex_t c;
-		struct param_t Parameter;
+		struct param_t parameter;
 		struct complex_t z;
         /*--- Initialwerte -------------------------------------------------*/
 
-		Parameter.fraktal = Mandelbrot;
-		Parameter.radiusG =2;
-		Parameter.imax=75;
-		Parameter.xmax=2;
-		Parameter.xmin=-2;
-		Parameter.ymax=2;
-		Parameter.ymin=-2;
-		Parameter.xpoints=1000;
-		Parameter.ypoints=1000;
+		parameter.fraktal = Mandelbrot;
+		parameter.radiusG =2;
+		parameter.imax=75;
+		parameter.xmax=2;
+		parameter.xmin=-2;
+		parameter.ymax=2;
+		parameter.ymin=-2;
+		parameter.xpoints=1000;
+		parameter.ypoints=1000;
 
 		c.x=0.4;
 		c.y=0.4;
@@ -46,27 +46,17 @@ int main (void)
         init_exit();
         
         /*--- Parameter über Dialog abfragen -------------------------------*/
-        param_dialog(&Parameter, &c,&z);
+        param_dialog(&parameter, &c,&z);
 
         /* Initialisierung des Grafikausgabefensters */
         grafik_init_window();
 
         /* Erzeugen einer virtuellen Leinwand um darauf zu zeichnen: */
-        //grafik_create_paint_area(/*x_min, x_max, y_min, y_max, x_points, y_points*/);
-        grafik_create_paint_area(Parameter.xmin, Parameter.xmax, Parameter.ymin, Parameter.ymax, Parameter.xpoints, Parameter.ypoints);
+        grafik_create_paint_area(parameter.xmin, parameter.xmax, parameter.ymin, parameter.ymax, parameter.xpoints, parameter.ypoints);
         /* virtuelle Leinwand vor dem Zeichnen aktivieren */
-        //grafik_lock_for_painting();
+        grafik_lock_for_painting();
 
-        /* Bitte ersetzen Sie folgenden Funktionsaufruf durch ihre eigene
-         * Implementation der Fraktalberechnung und -anzeige. */
-        //farb_demonstration();
-
-
-
-
-
-        fraktal(c,z,&Parameter);
-
+        fraktal(c,z,&parameter);
 
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
         		"MRT 1 - V3 - Information",
@@ -75,16 +65,13 @@ int main (void)
 				"     (Das Grafikfenster wird nicht aktualisiert.)",
 				NULL);
 
-
-
-
          /* virtuelle Leinwand deaktivieren und im Grafikfenster ausgeben. */
-        //grafik_unlock_and_show();
+        grafik_unlock_and_show();
 
         /* Aufrufen von InputChar() um das Programm nach dem öffnen der
          Graphik anzuhalten. Erst wenn in der Konsole eine Taste gedrückt
          wird, schließt sich das Fenster wieder. */
-        //input_char();
+        input_char();
 
          /* Aufräumen und freigeben der benutzten Grafikressourcen */
         grafik_close_window();
