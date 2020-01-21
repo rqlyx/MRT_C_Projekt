@@ -1,3 +1,3 @@
-graphic.o: ../graphic.c ../graphic.h
+graphic.d: ../graphic.c ../graphic.h
 
 ../graphic.h:
