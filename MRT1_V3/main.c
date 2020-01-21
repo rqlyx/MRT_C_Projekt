@@ -14,52 +14,46 @@
 void goodbye_msg(void);
 static void init_exit(void);
 
-
-/* Hauptprogramm, Einstiegspunkt für eigene Programmierlösung.
- * Kommentarzeichen vor Funktionsaufrufen entfernen und
- * Programmrahmen ausfüllen.
- */
 int main (void)
 {
         /*--- Variablendeklaration -----------------------------------------*/
-
+		struct complex_t c;
+		struct param_t parameter;
+		struct complex_t z;
 
         /*--- Initialwerte -------------------------------------------------*/
+		parameter.fraktal = Mandelbrot;
+		parameter.radiusG =2;
+		parameter.imax=75;
+		parameter.xmax=2;
+		parameter.xmin=-2;
+		parameter.ymax=2;
+		parameter.ymin=-2;
+		parameter.xpoints=1000;
+		parameter.ypoints=1000;
 
+		c.x=0.4;
+		c.y=0.4;
+
+		z.x=0;
+		z.y=0;
 
         init_exit();
-        
+        int i=1;
+        while (i > 0){
         /*--- Parameter über Dialog abfragen -------------------------------*/
-
-
+        param_dialog(&parameter, &c,&z);
         /* Initialisierung des Grafikausgabefensters */
         grafik_init_window();
-
         /* Erzeugen einer virtuellen Leinwand um darauf zu zeichnen: */
-        //grafik_create_paint_area(/*x_min, x_max, y_min, y_max, x_points, y_points*/);
-        
-        /* virtuelle Leinwand vor dem Zeichnen aktivieren */
-        //grafik_lock_for_painting();
+        grafik_create_paint_area(parameter.xmin, parameter.xmax, parameter.ymin, parameter.ymax, parameter.xpoints, parameter.ypoints);
 
-        /* Bitte ersetzen Sie folgenden Funktionsaufruf durch ihre eigene
-         * Implementation der Fraktalberechnung und -anzeige. */
-        farb_demonstration();
-
-
-         /* virtuelle Leinwand deaktivieren und im Grafikfenster ausgeben. */
-        //grafik_unlock_and_show();
-
-        /* Aufrufen von InputChar() um das Programm nach dem öffnen der
-         Graphik anzuhalten. Erst wenn in der Konsole eine Taste gedrückt
-         wird, schließt sich das Fenster wieder. */
-        //input_char();
-
-         /* Aufräumen und freigeben der benutzten Grafikressourcen */
+        fraktal(c,z,&parameter);
+        input_char();
         grafik_close_window();
-        
-        return 0;
-}
+        }
 
+}
 
 // -- Hilfsfunktionen ---
 static void init_exit(void)
@@ -72,7 +66,7 @@ static void init_exit(void)
 
 void goodbye_msg(void)
 {
-        printf("MRT1, V3, Programm beendet.\n");
+        printf("MRT1_V3, Programm beendet.\n");
 }
 
 /* EOF MAIN_C */

@@ -1,4 +1,4 @@
-fraktal.o: ../fraktal.c ../fraktal.h ../graphic.h
+fraktal.d: ../fraktal.c ../fraktal.h ../graphic.h
 
 ../fraktal.h:
 

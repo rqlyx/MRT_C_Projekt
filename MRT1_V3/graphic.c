@@ -17,8 +17,8 @@
  */
 
 // Fenstergröße
-static const int WIN_WIDTH=800;
-static const int WIN_HEIGHT=600;
+static const int WIN_WIDTH=1000;
+static const int WIN_HEIGHT=1000;
 
 // Grafikausgabe SDL-Ressourcen
 static SDL_Window *win = NULL;
