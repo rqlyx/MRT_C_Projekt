@@ -6,12 +6,11 @@
 #include "dialog.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define getVarName(var) #var
 
 /*--- Definitionen ---------------------------------------------------------*/
 
 enum bool {FALSE, TRUE};
-int input_frage;
+static char* enumName[] = {"Mandelbrot", "Juliamenge"};
 
 /*--- Tastatureingabe lesen und nur ersten Character beachten --------------*/
 
@@ -26,78 +25,135 @@ char input_char(void)
 
 void input_double(double *value)
 {
+
         char *endptr;
         char s[80];
         fgets(s,sizeof(s), stdin);
-        if (s[0]!=10) *value=strtod (s, &endptr);
+        if (s[0]!=10){
+        	*value=strtod (s, &endptr);
+        }
+
 }
-
-
 /*--- Int-Zahl von der Tastatur lesen --------------------------------------*/
 
 void input_int(int *value)
 {
+
         char s[80];
         fgets(s,sizeof(s), stdin);
         if (s[0]!=10) *value=atoi (s);
+
+
 }
 
+/*--- Eingabe checken--------------------------------------*/
+	void input_check_i(int *wert, int ob_gw, int un_gw){
+		int i = 0;
+		while (i == 0 ){
+		input_int(wert);
+		if (*wert < un_gw || *wert > ob_gw){
+			printf("Der Wert liegt außerhalb des Definitionsbereichs!\n");
+		}else i = 1;
+	}
+	}
+	void input_check_d(double* wert, double ob_gw, double un_gw){
+		int i = 0;
+		while (i == 0 ){
+		input_double(wert);
+		if (*wert < un_gw || *wert > ob_gw){
+			printf("Der Wert liegt außerhalb des Definitionsbereichs!\n");
+		}else i = 1;
+	}
+	}
+/*--- Input Parameter Funktion --------------------------------------*/
+
+void input_param(struct param_t* parameter){
+
+	printf("Was wollen sie verändern?\n");
+	printf("------------------------------------------\n");
+	printf("1 = Fraktalart\n2 = Radius\n3 = Interationszahl\n4 = Definitionsbereich von x\n5 = Definitionsbereich von y\n6 = Anzahl der Linien\n");
+
+	int param_frage = 0;
+	input_check_i(&param_frage,6,1);
+
+	switch (param_frage){
+	case 1:
+		printf("Geben sie die Fraktalart(Mandelbrot=0 |Juliamenge = 1) ein:\n");
+		input_check_i((int*)&(parameter->fraktal),1,0);break;
+	case 2:
+		printf("Geben sie den Radius(INT) ein:\n");
+		input_check_i(&parameter->radiusG,10, 0);
+		break;
+	case 3:
+		printf("Geben sie die Iterationszahl(INT) ein:\n");
+		input_check_i(&parameter->imax,150, 0);break;
+	case 4:
+		printf("untere Grenze Definitionsbereich(X):\n");
+		input_check_i(&parameter->xmin,0, -10);
+
+		printf("obere Grenze Definitionsbereich(X):\n");
+		input_check_i(&parameter->xmax,10, 0);break;
+	case 5:
+		printf("untere Grenze Definitionsbereich(Y):\n");
+		input_check_i(&parameter->ymin,0,-10);
+
+		printf("obere Grenze Definitionsbereich(0 < Y < 10):\n");
+		input_check_i(&parameter->ymax,10, 0);break;
+	case 6:
+		printf("Anzahl der Linien für x:\n");
+		input_check_i(&parameter->xpoints,3000, 0);
+
+		printf("Anzahl der Linien für y:\n");
+		input_check_i(&parameter->ypoints,1000, 0);break;
+	}
+}
+
+/*--- Input c Funktion --------------------------------------*/
+
+void input_c(struct complex_t* c){
+
+	printf("Geben sie den Realteil von c ein:\n");
+	input_check_d(&(c->x), 10, -10);
+
+	printf("Geben sie den Imaginärteil von c ein:\n");
+	input_check_d(&c->y, 10, -10);
+}
 
 /*--- Parameter Dialog -----------------------------------------------------*/
+
 int param_dialog(struct param_t* parameter, struct complex_t* c,struct complex_t* z){
 
 	//Ausgabe der aktuellen Parameter//
-
 	printf("Die aktuellen Parameter sind:\n");
-	printf("Fraktalart: %s\n", &parameter->fraktal);
-	printf("Radius: %d\n", parameter->radiusG);
-	printf("Iterationszahl: %d\n", parameter->imax);
-	printf("Definitionsbereich von x: (%d | %d)\n", parameter->xmin, parameter->xmax);
-	printf("Definitionsbereich von y: (%d | %d)\n", parameter->ymin, parameter->ymax);
+	printf("------------------------------------------\n");
+	printf("Fraktalart:                 %s\n", enumName[(int)parameter->fraktal]);
+	printf("Radius:                     %d\n", parameter->radiusG);
+	printf("Iterationszahl:             %d\n", parameter->imax);
+	printf("Definitionsbereich von x:  (%d < x < %d)\n", parameter->xmin, parameter->xmax);
+	printf("Definitionsbereich von y:  (%d < y < %d)\n", parameter->ymin, parameter->ymax);
 	printf("Anzahl der Linien (x | y): (%d | %d)\n", parameter->xpoints, parameter->ypoints);
 	printf("------------------------------------------\n");
-	printf("Die komplexe Zahle C hat die Werte: [Re(c)= %f | Im(c)= %f]\n", c->x, c->y);
+	printf("Die komplexe Zahle C hat die Werte:\n [Re(c)= %f | Im(c)= %f]\n", c->x, c->y);
 	printf("------------------------------------------\n");
 
-	
 	/*--- Parameter verändern?-----------------------------------------------------*/
-	
-	printf("Wollen sie die Parameter verändern?(y=0/n=1)\n");
-	scanf("%d", &input_frage);
+	printf("Was wollen sie tun?\n");
+	printf("------------------------------------------\n");
+	printf("1 = Grafik zeichnen\n2 = Parameter verändern\n3 = Komplexe Zahl C verändern\n4 = Programm beenden\n");
 
-	if (input_frage == 0){
+	int input_frage = 0;
+	input_int(&input_frage);
 
-		/*--- Parameter Eingabe -----------------------------------------------------*/
+		switch (input_frage){
 
-		printf("Geben sie die Fraktalart(0=Mandelbrot, 1=Juliamenge) ein:\n");
-		scanf("%s",&parameter->fraktal);
-
-		printf("Geben sie den Radius(INT) ein:\n");
-		input_int(&parameter->radiusG);
-
-		printf("Geben sie die Iterationszahl(INT) ein:\n");
-		input_int(&parameter->imax);
-
-		printf("Definitionsbereich:(xmin, xmax)\n");
-		scanf("%d, %d", &parameter->xmin, &parameter->xmax);
-
-		printf("Definitionsbereich:(ymin, ymax)\n");
-		scanf("%d, %d", &parameter->ymin, &parameter->ymax);
-
-		printf("Anzahl der Linien (xpoints , ypoints):\n");
-		scanf("%d, %d", &parameter->xpoints, &parameter->ypoints);
-
-		printf("Geben sie den Realteil von c ein:\n");
-		input_double(&c->x);
-
-		printf("Geben sie den Imaginärteil von c ein:\n");
-		input_double(&c->y);
-
-		return 0;
+		case 1: return 0;
+		case 2:	input_param(parameter);
+				param_dialog(parameter, c, z);break;
+		case 3: input_c(c);
+				param_dialog(parameter, c, z);break;
+		case 4: exit(-1); break;
 	}
-	else{
-		return 0;
-	}
+	return 0;
 }
 
 /* EOF DIALOG_C */

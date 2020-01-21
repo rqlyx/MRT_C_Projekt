@@ -8,10 +8,13 @@
 /*--- Interne Funktion: Analyse der Iterationsanzahl -----------------------*/
 int get_itera(struct complex_t c,struct complex_t z, struct param_t* parameter){
 	int Iterationszahl=0;
-	while((z.x*z.x+z.y*z.y)<pow(parameter->radiusG,2)&&Iterationszahl <= parameter->imax){
+	struct complex_t ztemp;
+	ztemp.x=z.x;
+	while((z.x*z.x+z.y*z.y)<(parameter->radiusG * parameter->radiusG) &&Iterationszahl <= parameter->imax){
 		Iterationszahl +=1;
-		z.x += c.x+z.x*z.x-z.y*z.y;
-		z.y += c.y+2*z.x*z.y;
+		ztemp.x = c.x+z.x*z.x-z.y*z.y;
+		z.y = c.y+2*z.x*z.y;
+		z.x=ztemp.x;
 	};
 	return Iterationszahl;
 };
@@ -44,9 +47,9 @@ void fraktal(struct complex_t c,struct complex_t z, struct param_t* parameter){
 			}
 
 			Color = get_color_value(Iteration, parameter->imax);
-			//grafik_lock_for_painting();
+//			grafik_lock_for_painting();
 			grafik_paint_point(x, y, Color);
-			//grafik_unlock_and_show();
+//			grafik_unlock_and_show();
 		};
 	};
 	grafik_unlock_and_show();
