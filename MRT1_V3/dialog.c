@@ -8,12 +8,10 @@
 #include <stdlib.h>
 
 /*--- Definitionen ---------------------------------------------------------*/
-
 enum bool {FALSE, TRUE};
 static char* enumName[] = {"Mandelbrot", "Juliamenge"};
 
 /*--- Tastatureingabe lesen und nur ersten Character beachten --------------*/
-
 char input_char(void)
 {
         char s[80];
@@ -22,89 +20,86 @@ char input_char(void)
 }
 
 /*--- Double-Zahl von der Tastatur lesen -----------------------------------*/
-
 void input_double(double *value)
 {
-
         char *endptr;
         char s[80];
         fgets(s,sizeof(s), stdin);
-        if (s[0]!=10){
-        	*value=strtod (s, &endptr);
-        }
-
+        if (s[0]!=10) *value=strtod (s, &endptr);
 }
-/*--- Int-Zahl von der Tastatur lesen --------------------------------------*/
 
+/*--- Int-Zahl von der Tastatur lesen --------------------------------------*/
 void input_int(int *value)
 {
-
         char s[80];
         fgets(s,sizeof(s), stdin);
         if (s[0]!=10) *value=atoi (s);
-
-
 }
 
-/*--- Eingabe checken--------------------------------------*/
+/*--- Check Funktion für Integer--------------------------------------*/
+/*Prüft ob der eingegebe Wert im Definitionsbereich liegt*/
+
 	void input_check_i(int *wert, int ob_gw, int un_gw){
 		int i = 0;
 		while (i == 0 ){
 		input_int(wert);
-		if (*wert < un_gw || *wert > ob_gw){
-			printf("Der Wert liegt außerhalb des Definitionsbereichs!\n");
-		}else i = 1;
+		if (*wert < un_gw || *wert > ob_gw) printf("Der Wert liegt außerhalb des Definitionsbereichs!\n");
+		else i = 1;
+		}
 	}
-	}
+/*--- Check Funktion für Double--------------------------------------*/
+/*Prüft ob der eingegebe Wert im Definitionsbereich liegt*/
+
 	void input_check_d(double* wert, double ob_gw, double un_gw){
 		int i = 0;
 		while (i == 0 ){
 		input_double(wert);
-		if (*wert < un_gw || *wert > ob_gw){
-			printf("Der Wert liegt außerhalb des Definitionsbereichs!\n");
-		}else i = 1;
-	}
+		if (*wert < un_gw || *wert > ob_gw) printf("Der Wert liegt außerhalb des Definitionsbereichs!\n");
+		else i = 1;
+		}
 	}
 /*--- Input Parameter Funktion --------------------------------------*/
 
 void input_param(struct param_t* parameter){
 
+//Textoutput for switch case
 	printf("Was wollen sie verändern?\n");
 	printf("------------------------------------------\n");
 	printf("1 = Fraktalart\n2 = Radius\n3 = Interationszahl\n4 = Definitionsbereich von x\n5 = Definitionsbereich von y\n6 = Anzahl der Linien\n");
 
+
+//Erstellung des Untermenüs mit switch case und Aufrufen der Eingabefunktion
 	int param_frage = 0;
 	input_check_i(&param_frage,6,1);
 
 	switch (param_frage){
 	case 1:
-		printf("Geben sie die Fraktalart(Mandelbrot=0 |Juliamenge = 1) ein:\n");
+		printf("Geben sie die Fraktalart(Mandelbrot = 0 |Juliamenge = 1) ein:\n");
 		input_check_i((int*)&(parameter->fraktal),1,0);break;
 	case 2:
-		printf("Geben sie den Radius(INT) ein:\n");
-		input_check_i(&parameter->radiusG,10, 0);
-		break;
+		printf("Geben sie den Radius ein(0 < r < 10):\n");
+		input_check_i(&parameter->radiusG,10, 0);break;
 	case 3:
-		printf("Geben sie die Iterationszahl(INT) ein:\n");
-		input_check_i(&parameter->imax,150, 0);break;
+		printf("Geben sie die Iterationszahl(0 < i < 300) ein:\n");
+		input_check_i(&parameter->imax,300, 0);break;
 	case 4:
-		printf("untere Grenze Definitionsbereich(X):\n");
+		printf("Untere Grenze Definitionsbereich(-10 < x < 0):\n");
 		input_check_i(&parameter->xmin,0, -10);
 
-		printf("obere Grenze Definitionsbereich(X):\n");
+		printf("Obere Grenze Definitionsbereich(0 < x < 10):\n");
 		input_check_i(&parameter->xmax,10, 0);break;
 	case 5:
-		printf("untere Grenze Definitionsbereich(Y):\n");
+		printf("Untere Grenze Definitionsbereich(-10 < Y < 0):\n");
 		input_check_i(&parameter->ymin,0,-10);
 
-		printf("obere Grenze Definitionsbereich(0 < Y < 10):\n");
+		printf("Obere Grenze Definitionsbereich(0 < y < 10):\n");
 		input_check_i(&parameter->ymax,10, 0);break;
 	case 6:
-		printf("Anzahl der Linien für x:\n");
+		printf("Anzahl der Linien für x(0 < xpoints < 3000):\n");
 		input_check_i(&parameter->xpoints,3000, 0);
 
-		printf("Anzahl der Linien für y:\n");
-		input_check_i(&parameter->ypoints,1000, 0);break;
+		printf("Anzahl der Linien für y(0 < ypoints < 3000):\n");
+		input_check_i(&parameter->ypoints,3000, 0);break;
 	}
 }
 
@@ -112,10 +107,10 @@ void input_param(struct param_t* parameter){
 
 void input_c(struct complex_t* c){
 
-	printf("Geben sie den Realteil von c ein:\n");
+	printf("Geben sie den Realteil von c ein(-10 < x < 10):\n");
 	input_check_d(&(c->x), 10, -10);
 
-	printf("Geben sie den Imaginärteil von c ein:\n");
+	printf("Geben sie den Imaginärteil von c ein(-10 < y < 10):\n");
 	input_check_d(&c->y, 10, -10);
 }
 
@@ -123,7 +118,7 @@ void input_c(struct complex_t* c){
 
 int param_dialog(struct param_t* parameter, struct complex_t* c,struct complex_t* z){
 
-	//Ausgabe der aktuellen Parameter//
+/*--- Ausgabe der aktuellen Parameter-----------------------------------------------------*/
 	printf("Die aktuellen Parameter sind:\n");
 	printf("------------------------------------------\n");
 	printf("Fraktalart:                 %s\n", enumName[(int)parameter->fraktal]);
@@ -136,13 +131,15 @@ int param_dialog(struct param_t* parameter, struct complex_t* c,struct complex_t
 	printf("Die komplexe Zahle C hat die Werte:\n [Re(c)= %f | Im(c)= %f]\n", c->x, c->y);
 	printf("------------------------------------------\n");
 
-	/*--- Parameter verändern?-----------------------------------------------------*/
+/*--- Parameter verändern?-----------------------------------------------------*/
 	printf("Was wollen sie tun?\n");
 	printf("------------------------------------------\n");
 	printf("1 = Grafik zeichnen\n2 = Parameter verändern\n3 = Komplexe Zahl C verändern\n4 = Programm beenden\n");
 
+/*--- "Menü" Realisierung in der Konsole mit switch case -----------------------------------------------------*/
+
 	int input_frage = 0;
-	input_int(&input_frage);
+	input_check_i(&input_frage,4,1);
 
 		switch (input_frage){
 
