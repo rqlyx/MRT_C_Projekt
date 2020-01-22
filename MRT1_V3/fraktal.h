@@ -7,18 +7,18 @@
 #define FRAKTAL_H
 #include "graphic.h"
 /*--- Datentypvereinbarungen -----------------------------------------------*/
-typedef enum{
+typedef enum{			// defines an enum containing the two types of fractals that can be calculated. Defines type
 	Mandelbrot,
 	Juliamenge
 }fraktal_t;
-struct param_t{
+struct param_t{			// a structure that contains all different parameters needed to define the fraktal beeing calculated
 	int radiusG;
 	int imax;
 	fraktal_t fraktal;
 	int xmin, xmax, ymin, ymax;
 	int xpoints, ypoints;
 };
-struct complex_t{
+struct complex_t{		// a structure defining complex numbers
 	double x;
 	double y;
 };
